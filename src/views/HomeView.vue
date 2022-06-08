@@ -1,18 +1,27 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="player-wrapper">
+    <!-- 播放器 -->
+    <video id="player" preload="auto" playsinline webkit-playsinline></video>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-
 export default {
   name: 'HomeView',
-  components: {
-    HelloWorld
+  mounted() {
+    const streamKey = this.$route.query.key || false
+    this.streamKey = streamKey
+    if (streamKey) {
+      const liveSrc = `webrtc://6721.liveplay.myqcloud.com/live/${streamKey}`
+      const player = TCPlayer('player')
+      player.src(liveSrc)
+    }
   }
 }
 </script>
+<style scoped>
+#player {
+  width: 100vw;
+  height: 100vh;
+}
+</style>
